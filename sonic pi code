@@ -1,0 +1,220 @@
+##DEALER'S GONE REMIX
+
+use_bpm 125
+
+live_loop :met1 do
+  sleep 1
+end
+
+##PERC
+
+live_loop :beat3, sync: :met1 do
+  stop
+  a = 10
+  p = 0
+  kick = "/Users/sarah/Desktop/dj_dave/Compositions/von/perc/kick.wav"
+  sample kick, amp: a, start: 0.05, pan: p
+  sleep 4
+end
+
+with_fx :reverb, mix: 0.6 do
+  live_loop :clap, sync: :met1 do
+    stop
+    a = 1.5
+    p = 0.2
+    c = 120
+    clap = "/Users/sarah/Desktop/dj_dave/Compositions/samples/clap2.wav"
+    sleep 1
+    sample clap, amp: a, pan: p, cutoff: c
+    sleep 1
+  end
+end
+
+live_loop :shiny, sync: :met1 do
+  stop
+  a = 3
+  p = -0.2
+  shiny = "/Users/sarah/Desktop/dj_dave/Compositions/von/perc/shiny.wav"
+  sample shiny, amp: a, pan: p, start: 0.05
+  sleep 0.25
+end
+
+with_fx :echo do
+  live_loop :glitter, sync: :met1 do
+    stop
+    a = 1
+    p = -0.1
+    glitter = "/Users/sarah/Desktop/dj_dave/Compositions/von/perc/glitter.wav"
+    sample glitter, amp: a, pan: p
+    sleep 0.75
+  end
+end
+
+live_loop :bigdrum, sync: :met1 do
+  stop
+  a = 0.6
+  p = [-0.25, 0.25].choose
+  big = "/Users/sarah/Desktop/dj_dave/Compositions/samples/bigdrum.wav"
+  sample big, amp: a, pan: p, finish: 0.1
+  sleep [0.25, 0.5, 0.75].choose
+end
+
+##| with_fx :reverb, mix: 0.6 do
+live_loop :HHC1, sync: :met1 do
+  stop
+  a = 0.09
+  p = 0.2
+  f = 0.5
+  hhc = :drum_cymbal_closed
+  2.times do
+    sample hhc, amp: a, pan: p, finish: f
+    sleep 0.25
+  end
+  2.times do
+    sample hhc, amp: 0.1, pan: p, finish: f
+    sleep 0.25
+  end
+end
+##| end
+
+##SYNTH
+
+live_loop :synth1, sync: :met1 do
+  stop
+  a = 0.5
+  use_synth :saw
+  32.times do
+    play :c2, amp: a, pan: p
+    sleep 0.25
+  end
+  32.times do
+    play :g2, amp: a, pan: p
+    sleep 0.25
+  end
+  32.times do
+    play :bb2, amp: a, pan: p
+    sleep 0.25
+  end
+  32.times do
+    play :c2, amp: a, pan: p
+    sleep 0.25
+  end
+end
+
+live_loop :synth2, sync: :met1 do
+  stop
+  a = 0.5
+  p = [0.5, -0.5].choose
+  use_synth :saw
+  32.times do
+    play :c3, amp: a, pan: p
+    sleep 0.25
+  end
+  32.times do
+    play :g3, amp: a, pan: p
+    sleep 0.25
+  end
+  32.times do
+    play :bb3, amp: a, pan: p
+    sleep 0.25
+  end
+  32.times do
+    play :c3, amp: a, pan: p
+    sleep 0.25
+  end
+end
+
+live_loop :arpsynth, sync: :met1 do
+  stop
+  p = 0.2
+  c = 100
+  a = 0.8
+  r = 0.15
+  use_synth :saw
+  arpc = (ring :c3, :eb3, :g3, :c4, :eb4, :g4, :c5, :eb5)
+  arpg = (ring :g2, :bb2, :d3, :g3, :bb3, :d4, :g4, :bb4)
+  arpbb = (ring :bb2, :d3, :f3, :bb3, :d4, :f4, :bb4, :d5)
+  32.times do
+    play arpc.tick, release: r, pan: p, cutoff: c, amp: a
+    sleep 0.25
+  end
+  32.times do
+    play arpg.tick, release: r, pan: p, cutoff: c, amp: a
+    sleep 0.25
+  end
+  32.times do
+    play arpbb.tick, release: r, pan: p, cutoff: c, amp: a
+    sleep 0.25
+  end
+  32.times do
+    play arpc.tick, release: r, pan: p, cutoff: c, amp: a
+    sleep 0.25
+  end
+end
+
+##VOX
+
+with_fx :echo do
+  live_loop :randvox, sync: :met1 do
+    stop
+    a = (line 3, 6, steps: 16).mirror.tick
+    cu = (line 100, 120, steps: 16).mirror.tick
+    p = 0
+    c = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/c_1.wav"
+    bb = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/bb_1.wav"
+    g = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/g_1.wav"
+    eb = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/eb_1.wav"
+    sample [c, bb, g, eb].choose, amp: a, cutoff: cu, pan: p
+    sleep 0.5
+  end
+end
+
+with_fx :reverb, mix: 0.5 do
+  with_fx :wobble, mix: 0.25 do
+    with_fx :panslicer, mix: 0.5 do
+      live_loop :chorus, sync: :met1 do
+        stop
+        p = 0.25
+        a = 1.5
+        chorus = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/chorus1.wav"
+        sleep 0.5
+        sample chorus, rate: 0.94, pan: p, amp: a
+        sleep 7.5
+      end
+    end
+  end
+end
+
+with_fx :reverb, mix: 0.6 do
+  with_fx :panslicer, mix: 0.3 do
+    live_loop :bloody2, sync: :met1 do
+      stop
+      a = 15
+      p = 0
+      b = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/bloodyhands2.wav"
+      sample b, amp: a, pan: p, rate: 0.96, pitch: -2
+      sleep 8
+    end
+  end
+end
+
+with_fx :echo, mix: 0.25 do
+  with_fx :panslicer, mix: 0.25 do
+    live_loop :bodylike, sync: :met1 do
+      stop
+      a = 6
+      p = -0.2
+      body = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/knowyourbodylike.wav"
+      2.times do
+        sleep 1
+        sample body, amp: a, pan: p
+        sleep 3
+      end
+      2.times do
+        bf = "/Users/sarah/Desktop/dj_dave/Compositions/von/vox/bf.wav"
+        sample bf, amp: a, pan: p
+        sleep 4
+      end
+    end
+  end
+end
